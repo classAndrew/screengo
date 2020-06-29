@@ -13,6 +13,9 @@ import (
 	"fyne.io/fyne/widget"
 )
 
+const offset int = 90
+const scale float64 = 1.15762 // this value with vary across machines, I don't know how fyne handles scaling of images
+
 type tappableIcon struct {
 	widget.Icon
 	c int
@@ -20,7 +23,7 @@ type tappableIcon struct {
 }
 
 func (t *tappableIcon) Tapped(f *fyne.PointEvent) {
-	t.p[t.c] = []int{int(float64((f.Position.X - 90)) * 1.15762), int(float64(f.Position.Y) * 1.1548872)}
+	t.p[t.c] = []int{int(float64((f.Position.X - offset)) * scale), int(float64(f.Position.Y) * scale)}
 	fmt.Printf("%v\n", t.p)
 	t.c++
 	if t.c == 2 {
@@ -57,6 +60,7 @@ func main() {
 	w.SetContent(widget.NewVBox(
 		widget.NewLabel("Capture!"),
 		widget.NewButton("Start", func() {
+			w.Hide()
 			Screenshot(1)
 			s, _ := fyne.LoadResourceFromPath("screenshot.png")
 			sw.SetContent(newTappableIcon(s))
