@@ -7,6 +7,7 @@ import (
 	"image/png"
 	"math"
 	"os"
+	"strconv"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
@@ -78,17 +79,21 @@ func main() {
 	w := appb.NewWindow("Grab")
 	sw := fyne.CurrentApp().NewWindow("Crop")
 	sw.Resize(fyne.NewSize(1366, 768))
-
+	texten := widget.NewEntry()
+	texten.Text = "1"
 	w.SetContent(widget.NewVBox(
 		widget.NewLabel("Capture!"),
-		widget.NewButton("Start", func() {
-			w.Hide()
-			Screenshot(1)
-			s, _ := fyne.LoadResourceFromPath("screenshot.png")
-			sw.SetContent(newTappableIcon(s, &sw))
-			sw.Show()
-			w.Close()
-		}),
+		widget.NewHBox(
+			texten,
+			widget.NewButton("Start", func() {
+				w.Hide()
+				i, _ := strconv.ParseInt(texten.Text, 10, 64)
+				Screenshot(int(i))
+				s, _ := fyne.LoadResourceFromPath("screenshot.png")
+				sw.SetContent(newTappableIcon(s, &sw))
+				sw.Show()
+				w.Close()
+			})),
 	))
 	w.ShowAndRun()
 
