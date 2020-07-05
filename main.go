@@ -59,7 +59,7 @@ func uploadProcess(t *tappableIcon) {
 	res := UploadImgur(EncodeB64("new.png"))
 	del := FindDelHash(res)
 	id := FindID(res)
-	logf, _ := os.OpenFile("logs", os.O_APPEND|os.O_CREATE|os.O_WRONLY, os.ModeAppend)
+	logf, _ := os.OpenFile("LOGPATH", os.O_APPEND|os.O_CREATE|os.O_WRONLY, os.ModeAppend)
 	logf.WriteString(id + "-" + del + "\n")
 	// fmt.Printf("%s\n%s\n%s\n", res, del, id)
 	w := fyne.CurrentApp().NewWindow("Output")
